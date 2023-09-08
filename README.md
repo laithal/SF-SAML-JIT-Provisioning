@@ -2,22 +2,21 @@
 
 **Please Note:** I assume absolutely no responsibility for any of the code in this repository. Use at your own risk.
 
-Sample Apex classes that implement the `Auth.SamlJitHandler` interface for a SAML just-in-time (JIT) provisioning 
-to occur based on data in the SAML assertion. The classes will handle both creating and updating users based on 
-the data in the assertion. The class also maintains the permisssion set group assignments for the user based on 
-assertion data. In the repo you'll find an implementation for Azure (`AADJITHandler.cls`) and for Google `GoogleJITHandler.cls`. Both 
-extend a common abstract base class with some common functionality.
+The sample Apex classes provided in this repo facilitate SAML Just-In-Time (JIT) provisioning based on data present in the SAML assertion. These classes cater to both user creation and updates depending on the information in the assertion. Moreover, they manage the user's permission set group assignments based on this data.
 
-The `PSG_DELETE_WHITE_LIST` list in the class is used to ensure the class only deletes permission set group 
-assignments we have whitelisted i.e. not permission set groups assigned manually in the org.
+Below are the key components and details of the classes:
 
-Note: The `AADJITHandler.cls` utilizes custom Azure AD claims as its claim types. It is advised that you make the necessary modifications to http://schemas.xmlsoap.org/ws/2005/05/identity/claims/* to match your SAML provider's attribute requirements and availability. 
+Base Class: Both AADJITHandler.cls (for Azure) and GoogleJITHandler.cls (for Google) extend from a common abstract base class, ensuring uniformity in some core functionalities.
 
-One method for identifying your claim types is to analyze the SAML response assertion using a SAML decoder, such as https://developer.pingidentity.com/en/tools/saml-decoder.html.
+PSG_DELETE_WHITE_LIST: This list is paramount in safeguarding manually assigned permission set groups within your org. Specifically, the class will only remove permission set group assignments that are whitelisted here.
 
-The standard Salesforce accepted claims are listed here and does not support Permission Set &/ Permission Set Group assignments: https://help.salesforce.com/s/articleView?language=en_US&id=sf.sso_jit_requirements.htm&type=5
-Example:
-User.Username
-User.Email
-User.LastName
-User.ProfileId
+Azure AD Claims: Do note that AADJITHandler.cls specifically uses custom Azure AD claims. It's essential to adapt the default claim types (http://schemas.xmlsoap.org/ws/2005/05/identity/claims/*) to resonate with your SAML provider's attributes.
+
+A handy method to identify your claim types is by assessing the SAML response assertion through a SAML decoder, like:
+Ping Identity SAML Decoder
+Salesforce Claims: Salesforce has its own set of standard claims. However, it does not currently support Permission Set &/or Permission Set Group assignments. Here are Salesforce's accepted claims:
+
+Salesforce JIT Requirements
+Examples: User.Username, User.Email, User.LastName, User.ProfileId
+
+In conclusion, it's imperative to ensure all claims and their respective implementations align with your organization's requirements.
